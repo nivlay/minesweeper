@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style/app.css" />
+    <title>Mine Sweeper</title>
+  </head>
+  <body onload="initGame()">
+    <div class="top-bar">
+        <ul>
+            <li>score</li>
+            <li class="emoji" onclick="resetGame()"><button >😁</button></li>
+            <li class="timer"></li>
+        </ul>
+    </div>
+    <div class="board-container"></div>
+    <h2>Game Over!</h2>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
+
