@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: url("/img//abstract.jpeg");
+    background-image: url("../img//abstract.jpeg");
     background-color: #cccccc;
 }
 
@@ -48,7 +48,7 @@ li {
 }
 
 table {
-    background-image: url("/img//abstract.jpeg");
+    background-image: url("../img/abstract.jpeg");
     margin-top: 100px;
     border-collapse: collapse;
     text-align: center;
@@ -68,7 +68,7 @@ h2 {
 }
 
 .difficulty {
-    background-image: url("/img//abstract.jpeg");
+    background-image: url("../img//abstract.jpeg");
     color: rgb(152, 0, 0);
     font-size: 15px;
     padding: 5px 10px 5px 10px;
