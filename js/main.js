@@ -1,9 +1,9 @@
 'use strict';
 var MINE_IMG = '🦠';
-var EMPTY_IMG = '✔️';
+var EMPTY_IMG = '';
 var FLAGE_IMG = '🚩';
 var gBoard;
-var gLevel = { SIZE: 4, MINES: 2 };
+var gLevel = { SIZE: 4, MINES: 2, LIFE: 2 };
 var gTimerInterval;
 var gDuration = 0;
 var gGame;
@@ -96,6 +96,8 @@ function cellClicked(i, j) {
   var elScore = document.querySelector('.score');
   var cell = gBoard[i][j];
   var elBtn = document.querySelector('.emoji');
+  var elLife = document.querySelector('.life');
+  elLife.innerText = gLevel.LIFE;
   if (!gTimerInterval) {
     createTimer();
   }
@@ -110,13 +112,25 @@ function cellClicked(i, j) {
     return;
   }
   if (cell.isMine) {
-    handleMine();
-    renderCell(i, j, MINE_IMG);
-    gGame.isOn = false;
-    clearInterval(gTimerInterval);
-    gTimerInterval = null;
-    elBtn.innerHTML = '<button>😭</button>';
-    elH2.style.display = 'block';
+    if (gLevel.LIFE > 0) {
+      gLevel.LIFE--;
+      elLife.innerText = gLevel.LIFE;
+      elH2.innerText = 'Danger! Mine spotted';
+      cell.isShown = false;
+      elH2.style.display = 'block';
+      setInterval(function () {
+        elH2.style.display = 'none';
+      }, 2000);
+    } else {
+      handleMine();
+      renderCell(i, j, MINE_IMG);
+      gGame.isOn = false;
+      clearInterval(gTimerInterval);
+      gTimerInterval = null;
+      elBtn.innerText = '😭';
+      elH2.style.display = 'block';
+      elH2.innerText = 'Game Over';
+    }
   } else if (cell.minesAroundCount > 0) {
     renderCell(i, j, cell.minesAroundCount);
     checkGameOver();
@@ -148,12 +162,10 @@ function onRightClick(ev, i, j) {
 
 function renderCell(i, j, value) {
   var elCell = document.querySelector(`.cell${i}-${j}`);
-  if (value === MINE_IMG) {
-    elCell.style.backgroundColor = 'red';
-  } else {
-    elCell.style.backgroundColor = '#ff0066';
+  if (value !== MINE_IMG || value !== FLAGE_IMG) {
+    elCell.style.backgroundColor = 'rgb(249, 187, 197)';
+    elCell.innerText = value;
   }
-  elCell.innerText = value;
 }
 
 function handleMine() {
@@ -161,7 +173,7 @@ function handleMine() {
     for (var j = 0; j < gBoard[0].length; j++) {
       if (gBoard[i][j].isMine) {
         gBoard[i][j].isShown = true;
-        renderCell(i,j,MINE_IMG);
+        renderCell(i, j, MINE_IMG);
       }
     }
   }
@@ -170,17 +182,18 @@ function handleMine() {
 function checkGameOver() {
   var elH2 = document.querySelector('h2');
   var elBtn = document.querySelector('.emoji');
+  var elLife = document.querySelector('.life');
+
   for (var i = 0; i < gBoard.length; i++) {
     for (var j = 0; j < gBoard[0].length; j++) {
-      // var cell = gBoard[i][j];
-      console.log('markcount ' + gGame.markedCount + 'mines ' + gLevel.MINES);
       if (
         gGame.markedCount === gLevel.MINES &&
         gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES
       ) {
         elH2.innerText = 'You are a winner!';
         elH2.style.display = 'block';
-        elBtn.innerHTML = '<button>😎</button>';
+        elBtn.innerText = '😎';
+        elLife.innerText = 0;
         clearInterval(gTimerInterval);
       }
     }
@@ -191,23 +204,28 @@ function resetGame() {
   var elH2 = document.querySelector('h2');
   var elBtn = document.querySelector('.emoji');
   var elScore = document.querySelector('.score');
+  var elLife = document.querySelector('.life');
+
   elH2.style.display = 'none';
   clearInterval(gTimerInterval);
   gTimerInterval = null;
-  elBtn.innerHTML = '<button>😁</button>';
+  elBtn.innerText = '😁';
+  elLife.innerText = 0;
   elScore.innerText = 0;
   initGame();
 }
 
 function getDifficulty(elBtn) {
+  var elLife = document.querySelector('.life');
   if (elBtn.getAttribute('class') === 'difficulty beginner')
-    gLevel = { SIZE: 4, MINES: 2 };
+    gLevel = { SIZE: 4, MINES: 2, LIFE: 2 };
   if (elBtn.getAttribute('class') === 'difficulty medium')
-    gLevel = { SIZE: 8, MINES: 12 };
+    gLevel = { SIZE: 8, MINES: 12, LIFE: 3 };
   if (elBtn.getAttribute('class') === 'difficulty expert')
-    gLevel = { SIZE: 12, MINES: 30 };
+    gLevel = { SIZE: 12, MINES: 30, LIFE: 4 };
   clearInterval(gTimerInterval);
   gTimerInterval = null;
+  elLife.innerText = 0;
   initGame();
 }
 
@@ -215,7 +233,7 @@ function createTimer() {
   gTimerInterval = setInterval(function () {
     gDuration++;
     renderTimer();
-  }, 1000);
+  }, 2000);
 }
 
 function renderTimer() {

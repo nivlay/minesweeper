@@ -12,16 +12,24 @@
     <div class="container">
       <div class="top-bar">
         <ul>
-          <li class="score">0</li>
-          <li class="emoji" onclick="resetGame()"><button>😁</button></li>
-          <li class="timer"></li>
+          <li>Score:<span class="score">0</span></li>
+          <li class="emoji" onclick="resetGame()">😁</li>
+          <li>Time: <span class="timer"></span></li>
+          <li>Life: <span class="life">0</span></li>
+
         </ul>
       </div>
       <div class="board-container"></div>
       <h2>Game Over!</h2>
-      <button class="difficulty beginner" onclick="getDifficulty(this)">Beginner</button>
-      <button class="difficulty medium" onclick="getDifficulty(this)">Medium</button>
-      <button class="difficulty expert" onclick="getDifficulty(this)">Expert</button>
+      <button class="difficulty beginner" onclick="getDifficulty(this)">
+        Beginner
+      </button>
+      <button class="difficulty medium" onclick="getDifficulty(this)">
+        Medium
+      </button>
+      <button class="difficulty expert" onclick="getDifficulty(this)">
+        Expert
+      </button>
     </div>
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>

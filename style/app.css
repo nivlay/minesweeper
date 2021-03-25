@@ -2,61 +2,67 @@
     text-align: center;
     margin: 0 auto;
     position: relative;
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-family: fantasy;
 }
 
 body {
-    background-color: lightsteelblue;
+    background-image: url("/img//abstract.jpeg");
+    background-color: #cccccc;
 }
 
 h1 {
     margin-top: 50px;
     color: darkred;
+    font-size: 50px;
 }
 
 .container {
-    background-color: rgb(181, 142, 148);
     width: 100%;
-    height: 900px;
+    height: 500px;
     margin: auto;
 }
 
 .top-bar {
     margin-top: 50px;
-    width: 520px;
+    margin-right: 300px;
     height: 80px;
-    background-color: rgb(230, 196, 196);
-    text-align: center;
     color: darkred;
 }
 
 .difficulty {
-    background-color: lightyellow;
-    color: darkred;
-    padding: 5px;
+    background-image: url("/img//abstract.jpeg");
+    color: rgb(152, 0, 0);
+    font-size: 15px;
+    padding: 5px 10px 5px 10px;
     margin: 25px;
+    margin-top: 30px;
+    border: 1px ridge black;
+    border-radius: 5px;
 }
 
 li {
-    margin-top: 12px;
+    margin-top: 50px;
     float: right;
     padding: 10px 80px 0px 0px;
     display: inline;
     font-size: 35px;
 }
 
-.emoji button {
+.emoji {
     width: 50px;
     height: 50px;
-    text-align: center;
     font-size: 25px;
+    border-radius: 50%;
+    font-size: 40px;
 }
 
 table {
+    background-image: url("/img//abstract.jpeg");
     margin-top: 100px;
     border-collapse: collapse;
     text-align: center;
-    background-color: lightyellow;
+    border-radius: 5px;
+    background-color: rgb(249, 187, 197);
 }
 
 .cell {
