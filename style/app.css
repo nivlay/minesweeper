@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: url("../img//abstract.jpeg");
+    background-image: url("../img/abstract.jpeg");
     background-color: #cccccc;
 }
 
@@ -28,8 +28,6 @@ h1 {
     height: 80px;
     color: darkred;
 }
-
-
 
 li {
     margin-top: 50px;
@@ -68,7 +66,7 @@ h2 {
 }
 
 .difficulty {
-    background-image: url("../img//abstract.jpeg");
+    background-image: url("../img/abstract.jpeg");
     color: rgb(152, 0, 0);
     font-size: 15px;
     padding: 5px 10px 5px 10px;
