@@ -8,17 +8,22 @@
     <title>Mine Sweeper</title>
   </head>
   <body onload="initGame()">
-    <div class="top-bar">
+    <h1>Minesweeper Game</h1>
+    <div class="container">
+      <div class="top-bar">
         <ul>
-            <li>score</li>
-            <li class="emoji" onclick="resetGame()"><button >😁</button></li>
-            <li class="timer"></li>
+          <li class="score">0</li>
+          <li class="emoji" onclick="resetGame()"><button>😁</button></li>
+          <li class="timer"></li>
         </ul>
+      </div>
+      <div class="board-container"></div>
+      <h2>Game Over!</h2>
+      <button class="difficulty beginner" onclick="getDifficulty(this)">Beginner</button>
+      <button class="difficulty medium" onclick="getDifficulty(this)">Medium</button>
+      <button class="difficulty expert" onclick="getDifficulty(this)">Expert</button>
     </div>
-    <div class="board-container"></div>
-    <h2>Game Over!</h2>
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>
-
