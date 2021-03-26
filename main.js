@@ -127,6 +127,7 @@ function cellClicked(i, j) {
       gTimerInterval = null;
       elBtn.innerText = '😭';
       elH2.style.display = 'block';
+      elH2.innerText = 'Game Over';
     }
   } else if (cell.minesAroundCount > 0) {
     renderCell(i, j, cell.minesAroundCount);
@@ -161,7 +162,7 @@ function renderCell(i, j, value) {
   var elCell = document.querySelector(`.cell${i}-${j}`);
   var cell = gBoard[i][j];
   if (cell.isShown) {
-    elCell.style.backgroundColor = 'rgb(249, 187, 197)';
+    elCell.style.backgroundColor = 'rgb(181, 115, 126)';
   }
   elCell.innerText = value;
 }
@@ -191,7 +192,6 @@ function checkGameOver() {
         elH2.innerText = 'You are a winner!';
         elH2.style.display = 'block';
         elBtn.innerText = '😎';
-        console.log(gDuration);
         if (gDuration < 60) {
           elScore.innerText = gDuration + ' Sec';
         } else {
