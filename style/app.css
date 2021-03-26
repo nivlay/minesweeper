@@ -12,7 +12,8 @@ body {
 
 h1 {
     margin-top: 50px;
-    color: darkred;
+    margin-bottom: 20px;
+    color: rgb(94, 11, 11);
     font-size: 50px;
 }
 
@@ -20,22 +21,20 @@ h1 {
     width: 100%;
     height: 500px;
     margin: auto;
+    position: absolute;
 }
 
 .top-bar {
-    margin-top: 50px;
-    margin-right: 300px;
-    height: 80px;
+    /* margin-top: 50px; */
+    /* margin-right: 300px; */
+    height: 100px;
+    width: 100%;
     color: darkred;
+    margin: 0 auto;
+    /* border: 1px solid black; */
+    font-size: 30px;
 }
 
-li {
-    margin-top: 50px;
-    float: right;
-    padding: 10px 80px 0px 0px;
-    display: inline;
-    font-size: 35px;
-}
 
 .emoji {
     width: 50px;
@@ -48,10 +47,9 @@ li {
 table {
     background-image: url("../img/abstract.jpeg");
     margin-top: 100px;
-    border-collapse: collapse;
     text-align: center;
     border-radius: 5px;
-    background-color: rgb(249, 187, 197);
+    background-color: rgb(181, 115, 126);
 }
 
 .cell {
@@ -63,23 +61,22 @@ table {
 
 h2 {
     display: none;
+    margin-top: 12px;
+    color: rgb(94, 11, 11);
 }
 
 h3 {
     display: none;
+    color: rgb(94, 11, 11);
 }
 
 .difficulty {
     background-image: url("../img/abstract.jpeg");
-    color: rgb(152, 0, 0);
+    color: rgb(94, 11, 11);
     font-size: 15px;
     padding: 5px 10px 5px 10px;
     margin: 60px;
     margin-top: 30px;
     border: 1px ridge black;
     border-radius: 5px;
-}
-
-.first-mine {
-    background-color: red;
 }

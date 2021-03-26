@@ -161,7 +161,7 @@ function renderCell(i, j, value) {
   var elCell = document.querySelector(`.cell${i}-${j}`);
   var cell = gBoard[i][j];
   if (cell.isShown) {
-    elCell.style.backgroundColor = 'rgb(249, 187, 197)';
+    elCell.style.backgroundColor = 'rgb(181, 115, 126)';
   }
   elCell.innerText = value;
 }
