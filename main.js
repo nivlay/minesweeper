@@ -93,7 +93,7 @@ function getMinesCount(board, row, col) {
 function cellClicked(i, j) {
   if (!gGame.isOn) return;
   var elH2 = document.querySelector('h2');
-  var elScore = document.querySelector('.score');
+  var elH3 = document.querySelector('h3');
   var cell = gBoard[i][j];
   var elBtn = document.querySelector('.emoji');
   var elLife = document.querySelector('.life');
@@ -105,7 +105,6 @@ function cellClicked(i, j) {
     cell.isShown = true;
     if (!cell.isMine) {
       gGame.shownCount++;
-      // elScore.innerText = gGame.shownCount;
     }
   }
   if (cell.isMarked) {
@@ -115,11 +114,10 @@ function cellClicked(i, j) {
     if (gLevel.LIFE > 0) {
       gLevel.LIFE--;
       elLife.innerText = gLevel.LIFE;
-      elH2.innerText = 'Danger! Mine Has Spotted';
+      elH3.style.display = 'block';
       cell.isShown = false;
-      elH2.style.display = 'block';
       setInterval(function () {
-        elH2.style.display = 'none';
+        elH3.style.display = 'none';
       }, 2000);
     } else {
       handleMine();
@@ -129,7 +127,6 @@ function cellClicked(i, j) {
       gTimerInterval = null;
       elBtn.innerText = '😭';
       elH2.style.display = 'block';
-      elH2.innerText = 'Game Over';
     }
   } else if (cell.minesAroundCount > 0) {
     renderCell(i, j, cell.minesAroundCount);
@@ -232,6 +229,8 @@ function resetGame() {
 function getDifficulty(elBtn) {
   var elLife = document.querySelector('.life');
   var elEmoji = document.querySelector('.emoji');
+  var elH3 = document.querySelector('h3');
+
   if (elBtn.getAttribute('class') === 'difficulty beginner') {
     gLevel = { SIZE: 4, MINES: 2, LIFE: 2 };
   }
@@ -242,6 +241,7 @@ function getDifficulty(elBtn) {
     gLevel = { SIZE: 12, MINES: 30, LIFE: 4 };
   }
   elEmoji.innerText = '😁';
+  elH3.style.display = 'none';
   clearInterval(gTimerInterval);
   gTimerInterval = null;
   elLife.innerText = 0;
