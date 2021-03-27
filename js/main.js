@@ -79,7 +79,7 @@ function renderBoard(board) {
     strHTML += '<tr>';
     for (var j = 0; j < board[0].length; j++) {
       var className = `cell cell${i}-${j} `;
-      strHTML += `<td oncontextmenu="onRightClick(event,${i},${j})" onClick="cellClicked(this,${i},${j})" class="${className}"></td>`;
+      strHTML += `<td oncontextmenu="onRightClick(event,${i},${j})" onClick="cellClicked(${i},${j})" class="${className}"></td>`;
     }
     strHTML += '</tr>';
   }
