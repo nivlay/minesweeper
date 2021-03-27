@@ -25,16 +25,12 @@ h1 {
 }
 
 .top-bar {
-    /* margin-top: 50px; */
-    /* margin-right: 300px; */
     height: 100px;
     width: 100%;
     color: darkred;
     margin: 0 auto;
-    /* border: 1px solid black; */
     font-size: 30px;
 }
-
 
 .emoji {
     width: 50px;
@@ -42,6 +38,7 @@ h1 {
     font-size: 25px;
     border-radius: 50%;
     font-size: 40px;
+    cursor: pointer;
 }
 
 table {
@@ -57,6 +54,27 @@ table {
     height: 40px;
     text-align: center;
     font-size: 1.5em;
+    cursor: pointer;
+}
+
+.hints {
+    cursor: pointer;
+}
+
+.hints p {
+    display: inline-block;
+}
+
+.hints button {
+    background-image: url("../img/abstract.jpeg");
+    color: rgb(94, 11, 11);
+    font-size: 15px;
+    padding: 5px 10px 5px 10px;
+    margin: 60px;
+    margin-top: 30px;
+    border: 1px ridge black;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 h2 {
@@ -75,8 +93,9 @@ h3 {
     color: rgb(94, 11, 11);
     font-size: 15px;
     padding: 5px 10px 5px 10px;
-    margin: 60px;
-    margin-top: 30px;
+    margin: 50px;
+    margin-top: 20px;
     border: 1px ridge black;
     border-radius: 5px;
+    cursor: pointer;
 }

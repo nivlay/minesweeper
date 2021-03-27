@@ -7,6 +7,7 @@ var gLevel = { SIZE: 4, MINES: 2, LIFE: 2 };
 var gTimerInterval;
 var gDuration = 0;
 var gGame;
+var gSafeClickCount = 3;
 
 function initGame() {
   gGame = { isOn: false, shownCount: 0, markedCount: 0 };
@@ -43,7 +44,7 @@ function getRandomMines(board) {
   for (var mines = 0; mines < gLevel.MINES; mines++) {
     var randomI = getRandomInt(0, board.length - 1);
     var randomJ = getRandomInt(0, board.length - 1);
-    while (board[randomI][randomJ].isMine === true) {
+    while (board[randomI][randomJ].isMine) {
       randomI = getRandomInt(0, board.length - 1);
       randomJ = getRandomInt(0, board.length - 1);
     }
@@ -96,7 +97,7 @@ function cellClicked(i, j) {
   var elH3 = document.querySelector('h3');
   var cell = gBoard[i][j];
   var elBtn = document.querySelector('.emoji');
-  var elLife = document.querySelector('.life');
+  var elLife = document.querySelector('.life span');
   elLife.innerText = gLevel.LIFE;
   if (!gTimerInterval) {
     createTimer();
@@ -127,6 +128,7 @@ function cellClicked(i, j) {
       gTimerInterval = null;
       elBtn.innerText = '😭';
       elH2.style.display = 'block';
+      elH2.innerText = 'Game Over';
     }
   } else if (cell.minesAroundCount > 0) {
     renderCell(i, j, cell.minesAroundCount);
@@ -162,6 +164,8 @@ function renderCell(i, j, value) {
   var cell = gBoard[i][j];
   if (cell.isShown) {
     elCell.style.backgroundColor = 'rgb(181, 115, 126)';
+  } else {
+    elCell.style.backgroundImage = 'url("../img/abstract.jpeg")';
   }
   elCell.innerText = value;
 }
@@ -180,7 +184,7 @@ function handleMine() {
 function checkGameOver() {
   var elH2 = document.querySelector('h2');
   var elBtn = document.querySelector('.emoji');
-  var elScore = document.querySelector('.score');
+  var elScore = document.querySelector('.score span');
 
   for (var i = 0; i < gBoard.length; i++) {
     for (var j = 0; j < gBoard[0].length; j++) {
@@ -191,11 +195,10 @@ function checkGameOver() {
         elH2.innerText = 'You are a winner!';
         elH2.style.display = 'block';
         elBtn.innerText = '😎';
-        console.log(gDuration);
         if (gDuration < 60) {
-          elScore.innerText = gDuration + ' Sec';
+          elScore.innerText = `  ${gDuration} Sec`;
         } else {
-          elScore.innerText = gDuration + ' Min';
+          elScore.innerText = `  ${gDuration} Min`;
         }
         clearInterval(gTimerInterval);
       }
@@ -206,8 +209,8 @@ function checkGameOver() {
 function resetGame() {
   var elH2 = document.querySelector('h2');
   var elEmoji = document.querySelector('.emoji');
-  var elScore = document.querySelector('.score');
-  var elLife = document.querySelector('.life');
+  var elScore = document.querySelector('.score span');
+  var elLife = document.querySelector('.life span');
 
   elH2.style.display = 'none';
   clearInterval(gTimerInterval);
@@ -227,7 +230,7 @@ function resetGame() {
 }
 
 function getDifficulty(elBtn) {
-  var elLife = document.querySelector('.life');
+  var elLife = document.querySelector('.life span');
   var elEmoji = document.querySelector('.emoji');
   var elH3 = document.querySelector('h3');
 
@@ -249,6 +252,37 @@ function getDifficulty(elBtn) {
   initGame();
 }
 
+function handleSafeClick() {
+  var elSafeClickCount = document.querySelector(`.hints span`);
+
+  if (!gSafeClickCount) return;
+  for (var mines = 0; mines < 1; mines++) {
+    var randomI = getRandomInt(0, gBoard.length - 1);
+    var randomJ = getRandomInt(0, gBoard.length - 1);
+    var cell = gBoard[randomI][randomJ];
+    while (cell.isShown && cell.isMine) {
+      randomI = getRandomInt(0, gBoard.length - 1);
+      randomJ = getRandomInt(0, gBoard.length - 1);
+    }
+    cell.isShown = true;
+    var cellImg;
+    if (cell.minesAroundCount) {
+      cellImg = cell.minesAroundCount;
+      renderCell(randomI, randomJ, cellImg);
+    } else {
+      cellImg = EMPTY_IMG;
+      renderCell(randomI, randomJ, cellImg);
+    }
+    setTimeout(function () {
+      cell.isShown = false;
+      renderCell(randomI, randomJ, EMPTY_IMG);
+    }, 1000);
+
+    gSafeClickCount--;
+    elSafeClickCount.innerText = gSafeClickCount;
+  }
+}
+
 function createTimer() {
   gTimerInterval = setInterval(function () {
     gDuration++;
@@ -257,6 +291,6 @@ function createTimer() {
 }
 
 function renderTimer() {
-  var elTimer = document.querySelector('.timer');
+  var elTimer = document.querySelector('.timer span');
   elTimer.innerText = new Date(gDuration * 1000).toISOString().substr(11, 8);
 }
