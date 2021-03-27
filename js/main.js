@@ -7,19 +7,23 @@ var gLevel = { SIZE: 4, MINES: 2, LIFE: 2 };
 var gTimerInterval;
 var gDuration = 0;
 var gGame;
+var gSafeClickCount;
 
 function initGame() {
   var elEmoji = document.querySelector('.emoji');
   var elH2 = document.querySelector('h2');
   var elScore = document.querySelector('.score span');
   var elLife = document.querySelector('.life span');
+  var elSafeClickCount = document.querySelector(`.hints span`);
+
   elH2.style.display = 'none';
   elScore.innerText = 0;
-
   gGame = { isOn: false, shownCount: 0, markedCount: 0 };
   if (!gGame.isOn) {
     gGame.isOn = true;
   }
+  gSafeClickCount = 3;
+  elSafeClickCount.innerText = gSafeClickCount;
   gTimerInterval = null;
   elEmoji.innerText = '😁';
   gBoard = getBoard();
@@ -35,7 +39,6 @@ function initGame() {
   }
   setMinesNegsCount(gBoard);
   renderBoard(gBoard);
-
   gDuration = 0;
   renderTimer();
 }
@@ -76,7 +79,7 @@ function renderBoard(board) {
     strHTML += '<tr>';
     for (var j = 0; j < board[0].length; j++) {
       var className = `cell cell${i}-${j} `;
-      strHTML += `<td oncontextmenu="onRightClick(event,${i},${j})" onClick="cellClicked(${i},${j})" class="${className}"></td>`;
+      strHTML += `<td oncontextmenu="onRightClick(event,${i},${j})" onClick="cellClicked(this,${i},${j})" class="${className}"></td>`;
     }
     strHTML += '</tr>';
   }
@@ -96,7 +99,6 @@ function setMinesNegsCount(board) {
 
 function getMinesCount(board, row, col) {
   var count = 0;
-
   for (var i = row - 1; i <= row + 1; i++) {
     if (i < 0 || i >= board.length) continue;
     for (var j = col - 1; j <= col + 1; j++) {
@@ -247,6 +249,27 @@ function getDifficulty(elBtn) {
   clearInterval(gTimerInterval);
   gTimerInterval = null;
   initGame();
+}
+
+function handleSafeClick() {
+  var elSafeClickCount = document.querySelector(`.hints span`);
+  if (!gSafeClickCount) return;
+  for (var mines = 0; mines < 1; mines++) {
+    var randomI = getRandomInt(0, gBoard.length - 1);
+    var randomJ = getRandomInt(0, gBoard.length - 1);
+    var cell = gBoard[randomI][randomJ];
+    while (cell.isShown || cell.isMine) {
+      randomI = getRandomInt(0, gBoard.length - 1);
+      randomJ = getRandomInt(0, gBoard.length - 1);
+    }
+    var elCell = document.querySelector(`.cell${randomI}-${randomJ}`);
+    elCell.style.boxShadow = '10px 10px 10px yellow';
+    setTimeout(function () {
+      elCell.style.boxShadow = '0 0 0 0 yellow';
+    }, 1000);
+    gSafeClickCount--;
+    elSafeClickCount.innerText = gSafeClickCount;
+  }
 }
 
 function createTimer() {
