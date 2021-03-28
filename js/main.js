@@ -1,45 +1,44 @@
 'use strict';
-var MINE_IMG = '🦠';
-var EMPTY_IMG = '';
-var FLAGE_IMG = '🚩';
+const MINE_IMG = '🦠';
+const EMPTY_IMG = '';
+const FLAGE_IMG = '🚩';
 var gBoard;
 var gLevel = { SIZE: 4, MINES: 2, LIFE: 2 };
 var gTimerInterval;
-var gDuration = 0;
+var gDuration;
 var gGame;
 var gSafeClickCount;
+var gHints;
+var gHintsCount;
 
 function initGame() {
   var elEmoji = document.querySelector('.emoji');
   var elH2 = document.querySelector('h2');
   var elScore = document.querySelector('.score span');
-  var elLife = document.querySelector('.life span');
   var elSafeClickCount = document.querySelector(`.hints span`);
-
+  var elHints = document.querySelectorAll(`.hints p`);
   elH2.style.display = 'none';
   elScore.innerText = 0;
+  elEmoji.innerText = '😁';
+
+  for (var i = 0; i < elHints.length; i++) {
+    elHints[i].innerText = '🌕';
+  }
+
   gGame = { isOn: false, shownCount: 0, markedCount: 0 };
   if (!gGame.isOn) {
     gGame.isOn = true;
   }
+  gDuration = 0;
+  gHints = false;
+  gHintsCount = 3;
   gSafeClickCount = 3;
   elSafeClickCount.innerText = gSafeClickCount;
   gTimerInterval = null;
-  elEmoji.innerText = '😁';
   gBoard = getBoard();
-  if (gBoard.length === 4) {
-    gLevel.LIFE = 2;
-    elLife.innerText = 2;
-  } else if (gBoard.length === 8) {
-    gLevel.LIFE = 3;
-    elLife.innerText = 3;
-  } else {
-    gLevel.LIFE = 4;
-    elLife.innerText = 4;
-  }
+  changeLevel();
   setMinesNegsCount(gBoard);
   renderBoard(gBoard);
-  gDuration = 0;
   renderTimer();
 }
 
@@ -59,6 +58,21 @@ function getBoard() {
   getRandomMines(board);
 
   return board;
+}
+
+function changeLevel() {
+  var elLife = document.querySelector('.life span');
+
+  if (gBoard.length === 4) {
+    gLevel.LIFE = 2;
+    elLife.innerText = 2;
+  } else if (gBoard.length === 8) {
+    gLevel.LIFE = 3;
+    elLife.innerText = 3;
+  } else {
+    gLevel.LIFE = 4;
+    elLife.innerText = 4;
+  }
 }
 
 function getRandomMines(board) {
@@ -124,7 +138,10 @@ function cellClicked(i, j) {
   if (!gTimerInterval) {
     createTimer();
   }
-
+  if(gHints) {
+    expouseHints(i, j)
+    gHints = false;
+  }
   if (!cell.isShown) {
     cell.isShown = true;
     if (!cell.isMine) {
@@ -282,4 +299,37 @@ function createTimer() {
 function renderTimer() {
   var elTimer = document.querySelector('.timer span');
   elTimer.innerText = new Date(gDuration * 1000).toISOString().substr(11, 8);
+}
+
+function handleHints(elBtn) {
+  if (gHintsCount > 0) {
+    elBtn.innerText = '🌑';
+    gHints = true;
+    gHintsCount--;
+  } else {
+    gHints = false;
+  }
+}
+
+function expouseHints(row, col) {
+  for (var i = row - 1; i <= row + 1; i++) {
+    if (i < 0 || i >= gBoard.length) continue;
+    for (var j = col - 1; j <= col + 1; j++) {
+      if (j < 0 || j >= gBoard[0].length) continue;
+      var cell = gBoard[i][j];
+      cell.isShown = true;
+      if (cell.isMine) {
+        renderCell(i, j, MINE_IMG);
+      } else if (cell.getMinesCount) {
+        renderCell(i, j, getMinesCount);
+      } else {
+        renderCell(i, j, EMPTY_IMG);
+      }
+
+      setTimeout(function () {
+        cell.isShown = false;
+        renderBoard(gBoard);
+      }, 1000);
+    }
+  }
 }
