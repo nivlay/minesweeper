@@ -8,8 +8,6 @@ var gTimerInterval;
 var gDuration;
 var gGame;
 var gSafeClickCount;
-var gHints;
-var gHintsCount;
 
 function initGame() {
   var elEmoji = document.querySelector('.emoji');
@@ -30,8 +28,6 @@ function initGame() {
     gGame.isOn = true;
   }
   gDuration = 0;
-  gHints = false;
-  gHintsCount = 3;
   gSafeClickCount = 3;
   elSafeClickCount.innerText = gSafeClickCount;
   gTimerInterval = null;
@@ -138,10 +134,7 @@ function cellClicked(i, j) {
   if (!gTimerInterval) {
     createTimer();
   }
-  if(gHints) {
-    expouseHints(i, j)
-    gHints = false;
-  }
+  
   if (!cell.isShown) {
     cell.isShown = true;
     if (!cell.isMine) {
@@ -301,35 +294,3 @@ function renderTimer() {
   elTimer.innerText = new Date(gDuration * 1000).toISOString().substr(11, 8);
 }
 
-function handleHints(elBtn) {
-  if (gHintsCount > 0) {
-    elBtn.innerText = '🌑';
-    gHints = true;
-    gHintsCount--;
-  } else {
-    gHints = false;
-  }
-}
-
-function expouseHints(row, col) {
-  for (var i = row - 1; i <= row + 1; i++) {
-    if (i < 0 || i >= gBoard.length) continue;
-    for (var j = col - 1; j <= col + 1; j++) {
-      if (j < 0 || j >= gBoard[0].length) continue;
-      var cell = gBoard[i][j];
-      cell.isShown = true;
-      if (cell.isMine) {
-        renderCell(i, j, MINE_IMG);
-      } else if (cell.getMinesCount) {
-        renderCell(i, j, getMinesCount);
-      } else {
-        renderCell(i, j, EMPTY_IMG);
-      }
-
-      setTimeout(function () {
-        cell.isShown = false;
-        renderBoard(gBoard);
-      }, 1000);
-    }
-  }
-}
